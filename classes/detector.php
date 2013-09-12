@@ -116,7 +116,7 @@ class Detector {
         //$config = is_string($config) ? $config : 'default';
 
         // Load and validate config
-        if (is_string($config) AND !is_array($this->_target = Kohana::$config->load(elf::DEFAULT_CONFIG_PATH)->get($config))) {
+        if (is_string($config) AND !is_array($this->_target = Kohana::$config->load(self::DEFAULT_CONFIG_PATH)->get($config))) {
             throw new Kohana_Exception('Detector config not defined in :config configureation', array(':config' => $config));
         } elseif (is_array($config)) {
             $this->_target = $config;
