@@ -23,6 +23,7 @@ class Detector {
             "blackberry"        => "blackberry",
             "blackberrytablet"  => "rim tablet os",
             "iphone"            => "(iphone|ipod)",
+            "iphoneold"         => "(iphone|ipod)",
             "ipad"              => "(ipad)",
             "palm"              => "(avantgo|blazer|elaine|hiptop|palm|plucker|xiino)",
             "windows"           => "windows ce; (iemobile|ppc|smartphone)",
@@ -187,6 +188,17 @@ class Detector {
             )
             {
                 return $this->_agent[$name] = true;
+            }
+        }
+
+        // Check if IOS < 7
+        if ('iphoneold' == $name) {
+            if (strpos($this->_user_agent, 'iPhone') !== false) {
+                if (strpos($this->_user_agent, 'OS 7') !== false) {
+                    return $this->_agent[$name] = false;
+                } else {
+                    return $this->_agent[$name] = true;
+                }
             }
         }
 
