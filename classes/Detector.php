@@ -193,8 +193,8 @@ class Detector {
 
         // Check if IOS < 7
         if ('iphoneold' == $name) {
-            if (strpos($this->_user_agent, 'iPhone') !== false) {
-                if (strpos($this->_user_agent, 'OS 7') !== false) {
+            if (strpos($this->_user_agent, 'iphone') !== false) {
+                if (strpos($this->_user_agent, 'os 6') !== false || strpos($this->_user_agent, 'os 7') !== false) {
                     return $this->_agent[$name] = false;
                 } else {
                     return $this->_agent[$name] = true;
