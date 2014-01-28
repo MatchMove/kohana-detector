@@ -366,23 +366,26 @@ class Detector {
      */
     protected function request_uri()
     {
-        if (isset($_SERVER['REQUEST_URI'])) {
-            $uri = $_SERVER['REQUEST_URI'];
-        } else {
-            if (isset($_SERVER['argv'])) {
+		$uri = (isset($_SERVER['REQUEST_URI'])) ? $_SERVER['REQUEST_URI'] : null;
+		
+		if (empty($uri))
+		{
+			if (isset($_SERVER['argv']))
+			{
                 $uri = $_SERVER['SCRIPT_NAME'] . '?' . $_SERVER['argv'][0];
             }
-            elseif (isset($_SERVER['QUERY_STRING'])) {
+            elseif (isset($_SERVER['QUERY_STRING']))
+			{
                 $uri = $_SERVER['SCRIPT_NAME'] . '?' . $_SERVER['QUESRY_STRING'];
             }
-            else {
+            else
+			{
                 $uri = $_SERVER['SCRIPT_NAME'];
             }
-        }
+		}
+		
         // Prevent multiple slashes to avoid cross site requests
-        $uri = '/' . ltrim($uri, '/');
-
-        return $uri;
+        return '/' . ltrim($uri, '/');
     }
 
     /**
@@ -393,19 +396,18 @@ class Detector {
      */
     protected function validate_cookie()
     {
-        $var = false;
-
-        if ($site = Cookie::get('auto_detect')) {
-            // deal cookie string example:"iphone,m.matchmove.com"
-            $site = explode(self::SEP, $site);
-
-            if (count($site) == 1) {
-                $var = ($this->_server_name == $site[0]) ? true : false;
-            } else {
-                $var = ($this->_server_name == $site[1]) ? true : false;
-            }
-        }
-
-        return $var;
+        if ($site != Cookie::get('auto_detect'))
+		{
+			return false;
+		}
+		
+		// deal cookie string example:"iphone,m.matchmove.com"
+		$site = explode(self::SEP, $site);
+		if (count($site) == 1)
+		{
+			return ($this->_server_name == $site[0]) ? true : false;
+		}
+		
+		return ($this->_server_name == $site[1]) ? true : false;
     }
 }
